@@ -1,0 +1,1 @@
+print("módulo 'client' carregado com sucesso!")
