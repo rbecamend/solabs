@@ -16,10 +16,9 @@ class UserService:
 
     def register_user(self, register_dto: RegisterDTO):
 
+        self.validate_crete_user(register_dto)
         student = self.student_repository.get_student_by_registration(register_dto.registration)
-        if not student:
-            raise Exception("Estudante não encontrado")
-        hashed_password =  bcrypt.hashpw(register_dto.password.encode('utf-8'), bcrypt.gensalt())
+        hashed_password = bcrypt.hashpw(register_dto.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         user = UserModel(
             email=register_dto.email,
             password=hashed_password,
@@ -29,9 +28,20 @@ class UserService:
 
     def login_user(self, login_dto: LoginDTO):
         user = self.user_repository.get_user_by_email(login_dto.email)
-        if user and bcrypt.checkpw(login_dto.senha.encode('utf-8'), user.senha.encode('utf-8')):
+        if user and bcrypt.checkpw(login_dto.password.encode('utf-8'), user.password.encode('utf-8')):
             return user
         return None
 
+
+    def validate_crete_user(self,register_dto: RegisterDTO):
+
+        if self.user_repository.exists_by_registration(register_dto.registration):
+            raise Exception(f"Já existe um usuario com matricula {register_dto.registration}")
+
+        if self.user_repository.exists_by_email(register_dto.email):
+            raise Exception(f"Já existe um usuario com email {register_dto.email}")
+
+        if not self.student_repository.get_student_by_registration(register_dto.registration):
+            raise Exception(f"Estudante com matricula {register_dto.registration} não encontrado")
 
 
