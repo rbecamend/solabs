@@ -10,6 +10,7 @@ from app.modules.student.model.student_model import Student
 
 
 class UserService:
+
     def __init__(self, user_repository: UserRepository, student_repository: StudentRepository):
         self.user_repository = user_repository
         self.student_repository = student_repository
