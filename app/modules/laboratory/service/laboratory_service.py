@@ -26,11 +26,3 @@ class LaboratoryService:
     def delete_laboratory(self, laboratory_id: int):
         return self.laboratory_repository.delete_laboratory(laboratory_id)
 
-    def recommend_laboratories(self, preferences: str) -> List[LaboratoryModel]:
-        recommendations = get_laboratory_recommendations(preferences)
-        recommended_laboratories = []
-        for rec in recommendations:
-            lab = self.laboratory_repository.get_laboratory_by_id(rec["laboratory_id"])
-            if lab:
-                recommended_laboratories.append(lab)
-        return recommended_laboratories
