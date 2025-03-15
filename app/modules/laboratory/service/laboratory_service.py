@@ -1,5 +1,9 @@
+from typing import List, Optional
+
 from app.modules.laboratory.repository.laboratory_repository import LaboratoryRepository
 from app.modules.laboratory.model.laboratory_model import LaboratoryModel
+from app.modules.professor.model.professor_model import ProfessorModel
+
 
 class LaboratoryService:
     def __init__(self, laboratory_repository: LaboratoryRepository):
@@ -11,8 +15,8 @@ class LaboratoryService:
     def get_laboratory_by_id(self, laboratory_id: int):
         return self.laboratory_repository.get_laboratory_by_id(laboratory_id)
 
-    def create_laboratory(self, name: str, description: str):
-        laboratory = LaboratoryModel(name=name, description=description)
+    def create_laboratory(self, name: str, description: str, professors: Optional[List[ProfessorModel]] = None):
+        laboratory = LaboratoryModel(name=name, description=description, professors=professors or [])
         return self.laboratory_repository.create_laboratory(laboratory)
 
     def update_laboratory(self, laboratory_id: int, laboratory_data: dict):
