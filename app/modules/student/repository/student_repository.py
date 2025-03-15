@@ -1,3 +1,4 @@
+from requests import session
 from sqlmodel import Session, select
 from app.modules.student.model.student_model import StudentModel
 
@@ -27,6 +28,6 @@ class StudentRepository:
             self.session.commit()
         return student
 
-    def existy_by_matricula(self, matricula: str):
-        statement = select(StudentModel).where(StudentModel.matricula == matricula)
-        return self.session.exec(statement).first() is not None
+    def get_student_by_registration(self,registrations:str)->StudentModel:
+        statement = select(StudentModel).where(StudentModel.registration == registrations)
+        return self.session.exec(statement).first()
