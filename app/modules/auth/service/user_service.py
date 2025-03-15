@@ -1,12 +1,12 @@
 
 import bcrypt
-from app.modules.auth.model.user_model import User
+from app.modules.auth.model.user_model import UserModel
 from app.modules.auth.repository.user_repository import UserRepository
 from app.modules.student.repository.student_repository import StudentRepository
 from app.modules.auth.dtos.register_dto import RegisterDTO
 from app.modules.auth.dtos.login_dto import LoginDTO
 
-from app.modules.student.model.student_model import Student
+from app.modules.student.model.student_model import StudentModel
 
 
 class UserService:
@@ -21,18 +21,18 @@ class UserService:
             raise Exception(f"Não existe um estudante com matricula {register_dto.matricula} cadastrado no sistema")
 
         student = self.student_repository.create_student(
-            Student(
+            StudentModel(
                 curso=register_dto.curso,
                 matricula=register_dto.matricula,
                 nome=register_dto.nome
             )
         )
 
-        hashed_password =  bcrypt.hashpw(register_dto.senha.encode('utf-8'), bcrypt.gensalt())
+        hashed_password =  bcrypt.hashpw(register_dto.password.encode('utf-8'), bcrypt.gensalt())
 
-        user = User(
+        user = UserModel(
             email=register_dto.email,
-            senha=hashed_password,
+            password=hashed_password,
             student_id=student.id
         )
         return self.user_repository.create_user(user)

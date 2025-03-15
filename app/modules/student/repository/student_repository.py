@@ -1,20 +1,20 @@
 from sqlmodel import Session, select
-from app.modules.student.model.student_model import Student
+from app.modules.student.model.student_model import StudentModel
 
 class StudentRepository:
     def __init__(self, session: Session):
         self.session = session
 
-    def create_student(self, student: Student):
+    def create_student(self, student: StudentModel):
         self.session.add(student)
         self.session.commit()
         self.session.refresh(student)
         return student
 
     def get_student_by_id(self, student_id: int):
-        return self.session.get(Student, student_id)
+        return self.session.get(StudentModel, student_id)
 
-    def update_student(self, student: Student):
+    def update_student(self, student: StudentModel):
         self.session.add(student)
         self.session.commit()
         self.session.refresh(student)
@@ -28,5 +28,5 @@ class StudentRepository:
         return student
 
     def existy_by_matricula(self, matricula: str):
-        statement = select(Student).where(Student.matricula == matricula)
+        statement = select(StudentModel).where(StudentModel.matricula == matricula)
         return self.session.exec(statement).first() is not None
