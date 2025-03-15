@@ -22,9 +22,9 @@ class UserService:
 
         student = self.student_repository.create_student(
             StudentModel(
-                curso=register_dto.curso,
-                matricula=register_dto.matricula,
-                nome=register_dto.nome
+                degree=register_dto.degree,
+                registration=register_dto.registration,
+                name=register_dto.name
             )
         )
 
@@ -32,8 +32,8 @@ class UserService:
 
         user = UserModel(
             email=register_dto.email,
-            password=hashed_password,
-            student_id=student.id
+            senha=hashed_password,
+            student=student
         )
         return self.user_repository.create_user(user)
 
