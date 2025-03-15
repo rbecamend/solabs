@@ -1,5 +1,6 @@
 from typing import List, Optional
 
+from app.modules.deepseek.service.deepseek_service import get_laboratory_recommendations
 from app.modules.laboratory.repository.laboratory_repository import LaboratoryRepository
 from app.modules.laboratory.model.laboratory_model import LaboratoryModel
 from app.modules.professor.model.professor_model import ProfessorModel
@@ -24,3 +25,4 @@ class LaboratoryService:
 
     def delete_laboratory(self, laboratory_id: int):
         return self.laboratory_repository.delete_laboratory(laboratory_id)
+

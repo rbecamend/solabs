@@ -1,3 +1,5 @@
+from typing import Type
+
 from sqlmodel import Session, select
 from app.modules.auth.model.user_model import UserModel
 
@@ -11,10 +13,10 @@ class UserRepository:
         self.session.refresh(user)
         return user
 
-    def get_user_by_id(self, user_id: int):
+    def get_user_by_id(self, user_id: int)-> Type[UserModel] | None:
         return self.session.get(UserModel, user_id)
 
-    def get_user_by_email(self, email: str):
+    def get_user_by_email(self, email: str)-> Type[UserModel] | None:
         statement = select(UserModel).where(UserModel.email == email)
         return self.session.exec(statement).first()
 
@@ -30,3 +32,11 @@ class UserRepository:
             self.session.delete(user)
             self.session.commit()
         return user
+
+    def exists_by_email(self, email: str)-> bool:
+        statement = select(UserModel).where(UserModel.email == email)
+        return self.session.exec(statement).first() is not None
+
+    def exists_by_registration(self, registration: str)-> bool:
+        statement = select(UserModel).where(UserModel.student.registration == registration)
+        return self.session.exec(statement).first() is not None

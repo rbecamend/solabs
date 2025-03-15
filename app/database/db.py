@@ -1,4 +1,8 @@
 from sqlmodel import create_engine, Session, SQLModel
+from app.modules.student.model.student_model import StudentModel
+from app.modules.auth.model.user_model import UserModel
+from app.modules.professor.model.professor_model import ProfessorModel
+from app.modules.laboratory.model.laboratory_model import LaboratoryModel
 import os
 from dotenv import load_dotenv
 
