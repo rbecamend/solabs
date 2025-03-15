@@ -33,4 +33,4 @@ def login_user(login_dto: LoginDTO, db: Session = Depends(get_db)):
         )
         return {"access_token": access_token, "token_type": "bearer"}
     else:
-        raise HTTPException(status_code=401, detail="Invalid email or password")
+        raise HTTPException(status_code=401, detail="Email invalido ou senha invalida")
