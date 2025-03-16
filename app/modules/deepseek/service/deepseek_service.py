@@ -8,7 +8,6 @@ api_key = os.getenv("LLM_KEY")
 
 client = OpenAI(api_key=api_key, base_url=api_url)
 
-
 class DeepSeekService:
 
     def __init__(self, lab_service:LaboratoryService, lab_repository: LaboratoryRepository):
@@ -17,26 +16,32 @@ class DeepSeekService:
 
 
     def get_lab_recommendations(self, preferences: str):
+        try:
+            labs = self.lab_service.get_all_laboratories()
+            if not labs:
+                return "Nenhum laboratório cadastrado no sistema."
 
-        labs = self.lab_service.get_all_laboratories()
+            response = client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant"},
+                    {"role": "user", "content": f"{labs}"},
+                    {"role": "user",
+                     "content": f"Você é um orientador acadêmico da faculdade de computação da UFPA (FACOMP),"
+                                f" e irá recomendar um laboratório com base nas seguintes preferências do aluno: {preferences},"},
+                ],
+                stream=False
+            )
 
-        response = client.chat.completions.create(
-            model="deepseek-chat",
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant"},
-                {"role": "user", "content": f"{labs}"},
-                {"role": "user","content": f"Você é um orientador acadêmico da faculdade de computação da UFPA (FACOMP),"
-                                           f" e irá recomendar um laboratório com base nas seguintes preferências do aluno: {preferences},"},
-            ],
-            stream=False
-        )
+            recommended_lab_name = response['choices'][0]['message']['content']
 
-        recommended_lab_name = response['choices'][0]['message']['content']
+            recommended_lab = next((lab for lab in labs if lab.name in recommended_lab_name), None)
 
-        recommended_lab = next((lab for lab in labs if lab.name in recommended_lab_name), None)
+            if recommended_lab:
+                self.lab_repository.increment_recommendation(recommended_lab.laboratory_id)
 
-        if recommended_lab:
-            self.lab_repository.increment_recommendation(recommended_lab.laboratory_id)
+            return recommended_lab_name
 
-        return recommended_lab_name
-
+        except Exception as e:
+            print(f"Erro ao chamar DeepSeek: {e}")
+            return "Ocorreu um erro ao obter recomendações. Tente novamente mais tarde."

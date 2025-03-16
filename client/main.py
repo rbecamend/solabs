@@ -15,7 +15,7 @@ if __name__ == "__main__":
     setup_pages()
     ui.run(
         title="SOLABS",
-        port=8000,
+        port=8080,
         host="0.0.0.0",
         reload=False,
         show=False,

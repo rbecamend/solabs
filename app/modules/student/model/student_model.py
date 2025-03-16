@@ -1,5 +1,10 @@
+from typing import TYPE_CHECKING
+
 from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional
+
+if TYPE_CHECKING:
+    from app.modules.auth.model.user_model import UserModel
 
 class StudentModel(SQLModel, table=True):
     __tablename__ = "tb_student"

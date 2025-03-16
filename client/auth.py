@@ -1,8 +1,12 @@
 from nicegui import ui
 import requests
 from client.utils import save_token
+import os
+from dotenv import load_dotenv
 
-API_URL = "http://localhost:8000/auth"
+load_dotenv()
+
+API_URL = os.getenv("API_URL")
 
 def login():
     email = email_input.value.strip()
@@ -11,8 +15,7 @@ def login():
     if not email or not senha:
         ui.notify("Preencha todos os campos.", type="warning")
         return
-
-    response = requests.post(f"{API_URL}/login", json={"email": email, "password": senha})
+    response = requests.post(f"{API_URL}/auth/login", json={"email": email, "password": senha})
 
     if response.status_code == 200:
         token = response.json().get("access_token")
@@ -33,7 +36,7 @@ def register():
         ui.notify("Preencha todos os campos!", type="warning")
         return
 
-    response = requests.post(f"{API_URL}/register", json={
+    response = requests.post(f"{API_URL}/auth/register", json={
         "registration": matricula,
         "email": email,
         "password": senha

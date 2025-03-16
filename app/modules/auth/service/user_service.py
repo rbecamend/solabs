@@ -33,8 +33,8 @@ class UserService:
 
     def validate_create_user(self,register_dto: RegisterDTO):
 
-        if self.user_repository.exists_by_registration(register_dto.registration):
-            raise Exception(f"Já existe um usuario com matricula {register_dto.registration}")
+        # if self.user_repository.exists_by_registration(register_dto.registration):
+        #     raise Exception(f"Já existe um usuario com matricula {register_dto.registration}")
 
         if self.user_repository.exists_by_email(register_dto.email):
             raise Exception(f"Já existe um usuario com email {register_dto.email}")
