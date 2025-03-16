@@ -1,17 +1,17 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app.modules.auth.dtos.login_dto import LoginDTO
-from app.modules.auth.dtos.register_dto import RegisterDTO
-from app.modules.auth.service.user_service import UserService
-from app.modules.auth.repository.user_repository import UserRepository
-from app.modules.student.repository.student_repository import StudentRepository
-from app.database.db import get_session as get_db
+from modules.auth.dtos.login_dto import LoginDTO
+from modules.auth.dtos.register_dto import RegisterDTO
+from modules.auth.service.user_service import UserService
+from modules.auth.repository.user_repository import UserRepository
+from modules.student.repository.student_repository import StudentRepository
+from database.db import get_session as get_db
 from datetime import timedelta
-from app.modules.auth.service.token_service import TokenService
+from modules.auth.service.token_service import TokenService
 
 router = APIRouter()
 
-@router.post("/register")
+@router.post("/register", tags=["User"])
 def register_user(register_dto: RegisterDTO, db: Session = Depends(get_db)):
     user_service = UserService(UserRepository(db), StudentRepository(db))
     try:
@@ -22,7 +22,7 @@ def register_user(register_dto: RegisterDTO, db: Session = Depends(get_db)):
 
 
 
-@router.post("/login")
+@router.post("/login", tags=["User"])
 def login_user(login_dto: LoginDTO, db: Session = Depends(get_db)):
     user_service = UserService(UserRepository(db), StudentRepository(db))
     user = user_service.login_user(login_dto)

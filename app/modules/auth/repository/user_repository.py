@@ -1,7 +1,7 @@
 from typing import Type
 
 from sqlmodel import Session, select
-from app.modules.auth.model.user_model import UserModel
+from modules.auth.model.user_model import UserModel
 
 class UserRepository:
     def __init__(self, session: Session):

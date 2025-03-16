@@ -1,10 +1,10 @@
 
 import bcrypt
-from app.modules.auth.model.user_model import UserModel
-from app.modules.auth.repository.user_repository import UserRepository
-from app.modules.student.repository.student_repository import StudentRepository
-from app.modules.auth.dtos.register_dto import RegisterDTO
-from app.modules.auth.dtos.login_dto import LoginDTO
+from modules.auth.model.user_model import UserModel
+from modules.auth.repository.user_repository import UserRepository
+from modules.student.repository.student_repository import StudentRepository
+from modules.auth.dtos.register_dto import RegisterDTO
+from modules.auth.dtos.login_dto import LoginDTO
 
 class UserService:
 
