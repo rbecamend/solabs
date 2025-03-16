@@ -32,3 +32,11 @@ class LaboratoryRepository:
             self.db.delete(laboratory)
             self.db.commit()
         return laboratory
+
+    def increment_recommendation(self, laboratory_id: int):
+        laboratory = self.get_laboratory_by_id(laboratory_id)
+        if laboratory:
+            laboratory.qnt_recomendacoes += 1
+            self.db.commit()
+            self.db.refresh(laboratory)
+        return laboratory

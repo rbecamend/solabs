@@ -6,8 +6,6 @@ from app.modules.student.repository.student_repository import StudentRepository
 from app.modules.auth.dtos.register_dto import RegisterDTO
 from app.modules.auth.dtos.login_dto import LoginDTO
 
-
-
 class UserService:
 
     def __init__(self, user_repository: UserRepository, student_repository: StudentRepository):
@@ -16,7 +14,7 @@ class UserService:
 
     def register_user(self, register_dto: RegisterDTO):
 
-        self.validate_crete_user(register_dto)
+        self.validate_create_user(register_dto)
         student = self.student_repository.get_student_by_registration(register_dto.registration)
         hashed_password = bcrypt.hashpw(register_dto.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         user = UserModel(
@@ -33,10 +31,10 @@ class UserService:
         return None
 
 
-    def validate_crete_user(self,register_dto: RegisterDTO):
+    def validate_create_user(self,register_dto: RegisterDTO):
 
-        if self.user_repository.exists_by_registration(register_dto.registration):
-            raise Exception(f"Já existe um usuario com matricula {register_dto.registration}")
+        # if self.user_repository.exists_by_registration(register_dto.registration):
+        #     raise Exception(f"Já existe um usuario com matricula {register_dto.registration}")
 
         if self.user_repository.exists_by_email(register_dto.email):
             raise Exception(f"Já existe um usuario com email {register_dto.email}")

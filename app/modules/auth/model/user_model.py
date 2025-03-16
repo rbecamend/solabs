@@ -1,6 +1,11 @@
+from typing import TYPE_CHECKING
+
 from sqlmodel import SQLModel, Field, Relationship
-from app.modules.student.model.student_model import StudentModel
 from typing import Optional
+
+if TYPE_CHECKING:
+    from app.modules.student.model.student_model import StudentModel
+
 
 class UserModel(SQLModel, table=True):
     __tablename__ = "tb_user"
@@ -10,4 +15,4 @@ class UserModel(SQLModel, table=True):
     password: str
     student_id: Optional[int] = Field(default=None, foreign_key="tb_student.student_id", unique=True)
 
-    student: Optional[StudentModel] = Relationship(back_populates="user")
+    student: Optional["StudentModel"] = Relationship(back_populates="user")
