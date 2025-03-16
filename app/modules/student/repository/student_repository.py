@@ -1,6 +1,6 @@
 from requests import session
 from sqlmodel import Session, select
-from app.modules.student.model.student_model import StudentModel
+from modules.student.model.student_model import StudentModel
 
 class StudentRepository:
     def __init__(self, session: Session):
