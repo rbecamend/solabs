@@ -4,7 +4,6 @@ from modules.laboratory.service.laboratory_service import LaboratoryService
 from modules.llm.dtos.text_input_dto import TextInputDTO
 from modules.professor.service.professor_service import ProfessorService
 
-
 def ask_llm(text: TextInputDTO, laboratory_service: LaboratoryService, professor_service: ProfessorService):
     labs = laboratory_service.get_all_laboratories()
     profs = professor_service.get_all_professors()
@@ -27,6 +26,7 @@ def ask_llm(text: TextInputDTO, laboratory_service: LaboratoryService, professor
             "stream": False
         }
     )
+
     response_json = response.json()
 
-    return response.json()['response']
+    return response_json['response']
