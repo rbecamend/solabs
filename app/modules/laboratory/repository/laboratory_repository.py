@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.modules.laboratory.model.laboratory_model import LaboratoryModel
+from modules.laboratory.model.laboratory_model import LaboratoryModel
 
 class LaboratoryRepository:
     def __init__(self, db: Session):
@@ -31,12 +31,4 @@ class LaboratoryRepository:
         if laboratory:
             self.db.delete(laboratory)
             self.db.commit()
-        return laboratory
-
-    def increment_recommendation(self, laboratory_id: int):
-        laboratory = self.get_laboratory_by_id(laboratory_id)
-        if laboratory:
-            laboratory.qnt_recomendacoes += 1
-            self.db.commit()
-            self.db.refresh(laboratory)
         return laboratory
