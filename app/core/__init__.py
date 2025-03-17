@@ -1,1 +1,0 @@
-print("módulo 'core' carregado com sucesso!")
