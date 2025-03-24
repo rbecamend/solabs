@@ -1,0 +1,6 @@
+app/.env
+ollama-models
+
+*.pyc
+
+.idea/

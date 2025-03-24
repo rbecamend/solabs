@@ -1,0 +1,1 @@
+print("módulo 'app' carregado com sucesso!")
